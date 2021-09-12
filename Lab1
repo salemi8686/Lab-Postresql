@@ -1,1 +1,38 @@
+create database lab1;
+create table employe
+(
+    id        serial primary key,
+    person_name      varchar(255),
+    street       varchar(30),
+    city varchar(30)
+);
+INSERT INTO public."employe" (id,person_name,street,city) VALUES (1,'Farhad','Pushkina','Almaty');
+INSERT INTO public."employe" (id,person_name,street,city) VALUES (2,'Murad','Wisdom','Astana');
+INSERT INTO public."employe" (id,person_name,street,city) VALUES (3,'Damir','Darvin','Turkestan');
+select * from employe;
+create table works(
+    id        serial primary key,
+    person_name      varchar(255),
+    company_name varchar(30),
+    salary int
+);
+INSERT INTO public."works" (id,person_name,company_name,salary) VALUES (1,'Farhad','BigBank',4000);
+INSERT INTO public."works" (id,person_name,company_name,salary) VALUES (2,'Murad','KaspiBank',50000);
+INSERT INTO public."works" (id,person_name,company_name,salary) VALUES (3,'Farhad','BigBank',10000);
+select * from works;
+create table company
+(
+    id        serial primary key,
+    company_name      varchar(255),
+    city varchar(30)
+);
+INSERT INTO public."company" (id,company_name,city) VALUES (1,'BigBank','Almaty');
+INSERT INTO public."company" (id,company_name,city) VALUES (2,'KaspiBank','Astana');
+select * from company;
+select employe.id,employe.person_name from employe INNER JOIN works on employe.person_name=works.person_name and works.company_name='BigBank';
+select employe.id,employe.person_name,employe.city from employe INNER JOIN works on employe.person_name=works.person_name and works.company_name='BigBank';
+select employe.id,employe.person_name,employe.city from employe INNER JOIN works on employe.person_name=works.person_name and works.company_name='BigBank' and works.salary>=10000;
+select employe.id,employe.person_name from employe INNER JOIN works on employe.person_name = works.person_name INNER JOIN company on works.company_name = company.company_name and employe.city = company.city;
+select employe.id,employe.person_name from employe INNER JOIN works on employe.person_name=works.person_name and works.company_name!='BigBank';
+select employe.id,employe.person_name from employe INNER JOIN works on employe.person_name=works.person_name and works.salary=(select max(salary) from works);
 
