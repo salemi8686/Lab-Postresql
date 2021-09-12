@@ -1,1 +1,1 @@
-# Lab1-Postresql
+# Lab-Postresql
