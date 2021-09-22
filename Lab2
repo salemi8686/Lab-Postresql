@@ -1,0 +1,91 @@
+--DDL commands:Create,DROP,Alter table
+create table table_commands
+(
+    number char(5),
+    names  varchar(25)
+);
+select * from table_commands;
+ALTER TABLE table_commands add column school varchar(20);
+select * from table_commands;
+Alter table table_commands drop column names restrict;
+alter table table_commands
+    owner to postgres;
+--DML commands insert,update,delete
+INSERT INTO table_commands (number, school) VALUES ('1','Muradov');
+INSERT INTO table_commands (number, school) values ('2','Farabi');
+UPDATE table_commands SET school='Pushkin' where number='1';
+select * from table_commands;
+DELETE from table_commands where school='Pushkin';
+select * from table_commands;
+
+--2.Write SQL statements to create tables in the figure below;
+create table customers(
+    id integer PRIMARY KEY ,
+    full_name varchar(50) Not null,
+    timestamp timestamp Not null,
+    delivery_address text Not null
+);
+select * from customers;
+create table orders(
+    code integer  PRIMARY KEY,
+    customer_id integer references customers (id),
+    total_sum double precision NOT NULL,
+    is_paid boolean NOT NULL
+);
+select * from orders;
+create table products(
+    id varchar  PRIMARY KEY ,
+    name varchar UNIQUE NOT NULL,
+    description text,
+    price double precision NOT NULL check(price>0)
+);
+select * from products;
+create table order_items(
+    order_code integer references orders (code),
+    product_id varchar references products (id),
+    quantity integer NOT NULL check(quantity>0),
+    PRIMARY KEY (order_code,product_id)
+);
+select * from order_items;
+create table chek(
+    id integer PRIMARY KEY,
+    nare varchar(20)
+);
+select * from chek;
+--4.Give examples of insertion,update, and deletion of data on tables from exercise 2.
+INSERT INTO customers (id, full_name, timestamp, delivery_address) values (1,'Jaksylyk Askhat','2021-09-15','Turkestan,st.Kaumbaev'),
+                                                                          (2,'Aman Baubek','2020-05-06','Turkestan,st.Kaumbaev');
+INSERT INTO orders (code, customer_id, total_sum, is_paid) values (8686,2,15376,TRUE),
+                                                                  (6670,1,99009,FALSE);
+INSERT INTO products (id, name, description, price) values ('123','rabbit','color:red',650),
+                                                           ('125','potatoes','color:yellow',1000);
+INSERT INTO order_items (order_code, product_id, quantity) values (6670,'123',10),
+                                                                  (8686,'125',10);
+UPDATE orders SET total_sum=20000 where code=8686;
+UPDATE products SET name='onion' where id='125';
+DELETE from order_items where order_code=8686;
+DELETE from customers where id=2;
+
+--3.Write SQL statements describing tables with appropriate data types and constraints satisfying the following conditions
+--(maybe you need additional tablesto store data atomically and efficiently);
+create table students(
+    full_name varchar(25) PRIMARY KEY,
+    age integer NOT NULL,
+    birth_date timestamp,
+    gender varchar(6) NOT NULL,
+    average_grade double precision,
+    description text NOT NULL,
+    is_needed boolean
+);
+create table instructors(
+    full_name varchar(25) PRIMARY KEY,
+    languages text NOT NULL,
+    experience varchar NOT NULL,
+    is_possible boolean
+);
+create table lesson_participant(
+    lesson_title varchar,
+    teacher varchar NOT NULL references instructors (full_name),
+    student varchar NOT NULL references students (full_name),
+    room_number integer NOT NULL
+);
