@@ -1,0 +1,177 @@
+create table custumers(
+    id integer primary key ,
+    name varchar(255),
+    phone varchar(255),
+    city varchar(255),
+    street varchar(255)
+);
+create table packages(
+    id integer primary key ,
+    type varchar(255) check ( type in ('hazardous','international') ),
+    weight integer,
+    timeliness int,
+    location varchar(255),
+     foreign key (location) references locations (loc_name)
+);
+create table orders(
+    id integer primary key ,
+    cust_id integer references custumers (id),
+    pack_id integer references packages (id),
+    order_date date,
+    price varchar,
+    payment varchar check ( payment in ('credit card','contract') )
+);
+create table locations(
+    loc_id integer primary key ,
+    loc_name varchar(255)
+);
+create table trucks(
+    truck_number integer primary key,
+    truck_loc integer,
+     foreign key(truck_loc) references locations (loc_id)
+);
+create table deliveries(
+    delivery_id integer primary key references orders (id),
+    delivery_truck integer references trucks (truck_number),
+    delivery_date date
+);
+
+insert into custumers values (1,'Alan','87753647121','Almaty','Auezov');
+insert into custumers values (2,'Sara','87754647122','Astana','Pushkin');
+insert into custumers values (3,'Murad','+7555511114','Oral','Kabanbay');
+insert into custumers values (4,'Jaksylyk','8753647121','Astana','Akanov');
+insert into custumers values (5,'Nurlan','87782647121','Almaty','Auezov');
+insert into custumers values (6,'Ermek','87753647121','Taraz','Kashaubaev');
+insert into custumers values (7,'Daniyar','87753647147','Almaty','Auezov');
+insert into custumers values (8,'Asan','87753647154','Astana','Pushkin');
+insert into custumers values (9,'Galym','87753647943','Taraz','Abay');
+insert into custumers values (10,'Farabi','87753652943','Almaty','Auezov');
+
+insert into locations values (1,'warehous-1');
+insert into locations values (2,'warehous-2');
+insert into locations values (3,'warehous-3');
+insert into locations values (6,'warehous-4');
+
+insert into packages values (222,'hazardous',3, 1 ,'warehouse-1');
+insert into packages values (111,'hazardous',4, 2 ,'warehouse-3');
+insert into packages values (55,'international',5, 2 ,'warehouse-1');
+insert into packages values (377,'international',1, 3 ,'warehouse-4');
+insert into packages values (118,'hazardous',3, 2 ,'warehouse-2');
+insert into packages values (777,'international',3, 1 ,'warehouse-4');
+insert into packages values (666,'hazardous',3, 4 ,'warehouse-3');
+insert into packages values (555,'international',3, 1 ,'warehouse-1');
+insert into packages values (444,'international',3, 2 ,'warehouse-4');
+insert into packages values (888,'hazardous',3, 5 ,'warehouse-2');
+insert into packages values (333,'international',3, 1 ,'warehouse-4');
+insert into packages values (999,'hazardous',3, 5 ,'warehouse-3');
+insert into packages values (150,'international',3, 7 ,'warehouse-1');
+insert into packages values (290,'international',3, 4 ,'warehouse-4');
+insert into packages values (1000,'hazardous',3, 2 ,'warehouse-2');
+
+
+insert into trucks values (6666,2);
+insert into trucks values (1721,6);
+insert into trucks values (8888,3);
+insert into trucks values (9999,1);
+insert into trucks values (2222,2);
+insert into trucks values (7777,6);
+insert into trucks values (1111,1);
+
+insert into orders values (100,1,118,'2020-07-21','12000','credit card');
+insert into orders values (200,4,55,'2020-06-21','15000','contract');
+insert into orders values (300,5,111,'2020-07-21','10000','credit card');
+insert into orders values (400,7,377,'2020-05-12','18000','contract');
+insert into orders values (500,2,777,'2020-04-28','20000','contract');
+insert into orders values (600,9,118,'2020-07-20','9000','credit card');
+insert into orders values (700,10,118,'2020-04-25','9000','contract');
+insert into orders values (800,1,666,'2020-05-13','12000','credit card');
+insert into orders values (900,3,444,'2020-06-19','16000','credit card');
+insert into orders values (1000,6,888,'2020-05-11','11000','credit card');
+insert into orders values (1100,8,555,'2020-07-22','19000','contract');
+insert into orders values (1200,7,222,'2020-06-21','13000','contract');
+insert into orders values (1300,2,377,'2020-04-27','18000','contract');
+insert into orders values (1400,5,222,'2020-03-20','13000','credit card');
+insert into orders values (1500,7,444,'2020-03-22','18000','contract');
+insert into orders values (1600,7,555,'2020-01-11','25000','contract');
+insert into orders values (1700,2,55,'2020-09-23','8000','contract');
+insert into orders values (1800,1,666,'2021-03-09','9000','credit card');
+insert into orders values (1900,7,118,'2021-05-19','14500','contract');
+insert into orders values (2000,10,555,'2021-06-28','15500','contract');
+insert into orders values (2100,9,999,'2021-07-11','15000','credit card');
+insert into orders values (2200,4,333,'2021-08-18','18000','contract');
+insert into orders values (2300,3,150,'2021-09-20','19000','credit card');
+insert into orders values (2400,6,290,'2021-10-19','14500','credit card');
+insert into orders values (2500,1,1000,'2021-11-30','11000','credit card');
+
+insert into deliveries values (2400, 7777, '2021-10-20');
+insert into deliveries values (2300, 6666, '2021-09-24');
+insert into deliveries values (2200, 8888, '2021-08-19');
+insert into deliveries values (2100, 2222, '2021-03-29');
+insert into deliveries values (2000, 9999, '2021-06-30');
+insert into deliveries values (1900, 1111, '2021-05-20');
+insert into deliveries values (1800, 2222, '2021-03-09');
+insert into deliveries values (1700, 6666, '2020-09-25');
+insert into deliveries values (1600, 1721 , '2020-01-12');
+insert into deliveries values (1500, 7777, '2020-03-22');
+insert into deliveries values (1400, 2222, '2020-03-29');
+insert into deliveries values (1300, 1111, '2020-04-30');
+insert into deliveries values (1200, 1721, '2020-06-22');
+insert into deliveries values (1100, 7777, '2020-07-26');
+insert into deliveries values (1000, 8888, '2020-05-13');
+insert into deliveries values (900, 1721, '2020-06-22');
+insert into deliveries values (800, 9999, '2020-05-13');
+insert into deliveries values (700, 1111, '2020-04-30');
+insert into deliveries values (600, 7777, '2020-07-22');
+insert into deliveries values (500, 6666, '2020-04-29');
+insert into deliveries values (400, 1721, '2020-05-13');
+insert into deliveries values (300, 8888, '2020-07-22');
+insert into deliveries values (200, 1721, '2020-06-22');
+insert into deliveries values (100, 8888, '2020-08-12');
+
+--Assume truck 1721 is destroyed in a crash. Find all customers who had a package on that truck at the time of the crash.
+-- let's consider in at '2020-06-22' 1721 destroyed in a crash:
+select * from custumers where id in (select cust_id from orders where id in (select delivery_id from deliveries where delivery_truck=1721 and delivery_date='2020-06-22'));
+
+--Find the last successful delivery by that truck prior to the crash.
+select * from deliveries inner join orders o on deliveries.delivery_id = o.id inner join packages on o.pack_id = packages.id where delivery_truck=1721 and deliveries.delivery_date<'2020-06-22' and delivery_date-o.order_date<=packages.timeliness order by delivery_date desc limit 1;
+
+--Find the customer who has shipped the most packages in the past year.
+select * from custumers where id in (select cust_id from (select cust_id,count(*) as times from orders where date_part('year', order_date)=date_part('year', now())-1 group by cust_id order by times desc limit 1) as itog);
+select cust_id,count(*) as times from orders group by cust_id order by times desc;
+
+--Find the customer who has spent the most money on shipping in the past year.
+select * from custumers where id in (select cust_id from (select cust_id,sum(cast(price as int)) as total from orders where date_part('year', order_date)=date_part('year', now())-1 group by cust_id order by total desc limit 1) as itog);
+select cust_id,sum(cast(price as int)) as total from orders where date_part('year', order_date)=date_part('year', now())-1 group by cust_id order by total desc;
+
+--Find the street with the most customers.
+select street,city,count(*) as times from custumers group by (street,city) order by times desc limit 1;
+
+--Find those packages that were not delivered within the promised time.
+select distinct packages.id,packages.type,packages.timeliness from deliveries inner join orders o on deliveries.delivery_id = o.id inner join packages on o.pack_id = packages.id where delivery_date-o.order_date>packages.timeliness;
+select * from deliveries inner join orders o on deliveries.delivery_id = o.id inner join packages on o.pack_id = packages.id;
+
+-- A simple bill: customer, address, and amount owed.
+select custumers.id,custumers.name,custumers.city,sum(cast(price as int)) as amount from custumers inner join orders o on custumers.id = o.cust_id where date_part('year', order_date)=date_part('year', now())-1 group by o.cust_id,custumers.id order by custumers.id;
+
+-- An itemize billing listing each individual shipment and the charges for it.
+select custumers.id,custumers.name,custumers.city,o.price,o.order_date from custumers inner join orders o on custumers.id = o.cust_id where date_part('year', order_date)=date_part('year', now())-1 group by custumers.id, custumers.name, custumers.city, o.price, o.order_date;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
